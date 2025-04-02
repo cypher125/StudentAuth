@@ -208,7 +208,7 @@ export function EditStudentModal({ isOpen, onClose, onSuccess, studentId }: Edit
                   <SelectValue placeholder="Select faculty" />
                 </SelectTrigger>
                 <SelectContent>
-                <SelectItem value="Science and Technology">Science and Technology</SelectItem>
+                  <SelectItem value="Science and Technology">Science and Technology</SelectItem>
                   <SelectItem value="Engineering">Engineering</SelectItem>
                   <SelectItem value="Arts">Arts</SelectItem>
                   <SelectItem value="SMBS">SMBS</SelectItem>

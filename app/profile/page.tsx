@@ -161,6 +161,20 @@ export default function ProfilePage() {
                       <p className="text-dark-neutral">{userData.email}</p>
                     </div>
                   </li>
+                  <li className="flex items-center">
+                    <User className="h-5 w-5 text-primary mr-3" />
+                    <div>
+                      <p className="text-sm text-neutral-gray">Student ID</p>
+                      <p className="text-dark-neutral">{userData.id || 'Not available'}</p>
+                    </div>
+                  </li>
+                  <li className="flex items-center">
+                    <Calendar className="h-5 w-5 text-primary mr-3" />
+                    <div>
+                      <p className="text-sm text-neutral-gray">Enrollment Date</p>
+                      <p className="text-dark-neutral">{userData.enrollmentDate}</p>
+                    </div>
+                  </li>
                 </ul>
               </div>
 
@@ -180,13 +194,6 @@ export default function ProfilePage() {
                     <div>
                       <p className="text-sm text-neutral-gray">Department</p>
                       <p className="text-dark-neutral">{userData.department}</p>
-                    </div>
-                  </li>
-                  <li className="flex items-center">
-                    <BookOpen className="h-5 w-5 text-primary mr-3" />
-                    <div>
-                      <p className="text-sm text-neutral-gray">Course</p>
-                      <p className="text-dark-neutral">{userData.course}</p>
                     </div>
                   </li>
                   <li className="flex items-center">
@@ -210,15 +217,26 @@ export default function ProfilePage() {
                       <p className="text-dark-neutral">{userData.grade}</p>
                     </div>
                   </li>
-                  <li className="flex items-center">
-                    <Calendar className="h-5 w-5 text-primary mr-3" />
-                    <div>
-                      <p className="text-sm text-neutral-gray">Enrollment Date</p>
-                      <p className="text-dark-neutral">{userData.enrollmentDate}</p>
-                    </div>
-                  </li>
                 </ul>
               </div>
+            </div>
+
+            {/* Courses Section - Separate Row */}
+            <div className="bg-white rounded-lg shadow-card p-6 mb-6">
+              <h2 className="text-xl font-bold text-dark-neutral mb-4">Courses</h2>
+              <ul className="space-y-2">
+                {userData.course && userData.course.split(',').map((course: string, index: number) => (
+                  <li key={index} className="flex items-start">
+                    <div className="min-w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-xs mr-3 mt-0.5">
+                      {index + 1}
+                    </div>
+                    <p className="text-dark-neutral pt-0.5">{course.trim()}</p>
+                  </li>
+                ))}
+                {!userData.course && (
+                  <li className="text-neutral-gray italic">No courses registered</li>
+                )}
+              </ul>
             </div>
 
             {/* Actions */}

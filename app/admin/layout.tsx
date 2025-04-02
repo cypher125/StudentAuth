@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="p-4 border-b">
           <Link href="/admin" className="flex items-center space-x-2">
             <div className="relative w-8 h-8">
-              <Image src="/placeholder.svg?height=32&width=32" alt="Yabatech Logo" fill className="object-contain" />
+              <Image src="/logoyct.png?height=32&width=32" alt="Yabatech Logo" fill className="object-contain" />
             </div>
             <span className="font-montserrat font-bold text-primary">Admin Panel</span>
           </Link>

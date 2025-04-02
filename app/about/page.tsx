@@ -9,43 +9,33 @@ import { Github, Linkedin, Mail } from "lucide-react"
 const teamMembers = [
   {
     id: 1,
-    name: "Adebayo Johnson",
-    role: "Team Lead / Frontend Developer",
+    name: "Osoba Adejare",
+    role: "Backend Developer",
     bio: "Final year Computer Science student with a passion for UI/UX design and frontend development. Specializes in React and Next.js.",
-    imageUrl: "/placeholder.svg?height=300&width=300",
+    imageUrl: "/jare.jpg?height=300&width=300",
     github: "https://github.com/adebayo",
     linkedin: "https://linkedin.com/in/adebayo",
-    email: "adebayo.j@student.yabatech.edu.ng",
+    email: "osobaadejare@gmail.com",
   },
   {
     id: 2,
-    name: "Chioma Okonkwo",
+    name: "Michael Bethel Ikechukwu",
     role: "Backend Developer",
     bio: "Computer Engineering student with strong skills in Python and Django. Responsible for the facial recognition API and database architecture.",
-    imageUrl: "/placeholder.svg?height=300&width=300",
+    imageUrl: "/mithel2.jpg?height=300&width=300",
     github: "https://github.com/chioma",
     linkedin: "https://linkedin.com/in/chioma",
-    email: "chioma.o@student.yabatech.edu.ng",
+    email: "michaelbethel789@gmail.com",
   },
   {
     id: 3,
-    name: "Taiwo Adeyemi",
-    role: "Machine Learning Engineer",
+    name: "Olumide Taiwo",
+    role: "Frontend Developer",
     bio: "Mathematics and Computer Science student specializing in machine learning and computer vision. Implemented the facial recognition algorithms.",
-    imageUrl: "/placeholder.svg?height=300&width=300",
+    imageUrl: "/olu.jpg?height=300&width=300",
     github: "https://github.com/taiwo",
     linkedin: "https://linkedin.com/in/taiwo",
     email: "taiwo.a@student.yabatech.edu.ng",
-  },
-  {
-    id: 4,
-    name: "Ngozi Eze",
-    role: "UI/UX Designer",
-    bio: "Creative Arts student with a focus on digital design. Created the user interface mockups and user experience flow for the application.",
-    imageUrl: "/placeholder.svg?height=300&width=300",
-    github: "https://github.com/ngozi",
-    linkedin: "https://linkedin.com/in/ngozi",
-    email: "ngozi.e@student.yabatech.edu.ng",
   },
 ]
 
@@ -76,7 +66,7 @@ export default function AboutPage() {
                   <div className="md:w-1/3">
                     <div className="relative w-full aspect-square rounded-lg overflow-hidden">
                       <Image
-                        src="/placeholder.svg?height=400&width=400"
+                        src="recognition.jpeg?height=400&width=400"
                         alt="Facial Recognition System"
                         fill
                         className="object-cover"

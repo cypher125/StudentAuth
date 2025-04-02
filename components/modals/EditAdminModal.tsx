@@ -167,12 +167,11 @@ export function EditAdminModal({ isOpen, onClose, onSuccess, adminId }: EditAdmi
                 <SelectValue placeholder="Select faculty" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Science">Science</SelectItem>
-                <SelectItem value="Engineering">Engineering</SelectItem>
-                <SelectItem value="Arts">Arts</SelectItem>
-                <SelectItem value="Social Sciences">Social Sciences</SelectItem>
-                <SelectItem value="Management Sciences">Management Sciences</SelectItem>
-                <SelectItem value="Administration">Administration</SelectItem>
+                  <SelectItem value="Science and Technology">Science and Technology</SelectItem>
+                  <SelectItem value="Engineering">Engineering</SelectItem>
+                  <SelectItem value="Arts">Arts</SelectItem>
+                  <SelectItem value="SMBS">SMBS</SelectItem>
+                  <SelectItem value="Management Sciences">Management Sciences</SelectItem>
               </SelectContent>
             </Select>
           </div>
