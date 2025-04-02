@@ -5,7 +5,7 @@ const AUTH_FAILED_KEY = 'auth_failed';
 const TOKEN_EXPIRY_KEY = 'token_expiry';
 
 // Get API URL from environment variable
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://studentauth.onrender.com/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://student-auth-api.onrender.com/api';
 //const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 /**

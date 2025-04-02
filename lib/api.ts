@@ -10,7 +10,7 @@ import {
   ensureFreshToken
 } from './tokenService';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://studentauth.onrender.com/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://student-auth-api.onrender.com/api';
 //const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 // Helper function for fetch requests with automatic token refresh
