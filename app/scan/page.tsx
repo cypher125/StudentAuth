@@ -36,7 +36,7 @@ export default function ScanPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isCameraReady, setIsCameraReady] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [scanningStatus, setScanningStatus] = useState<"waiting" | "scanning" | "processing" | "complete" | "error">("waiting")
+  const [scanningStatus, setScanningStatus] = useState<"waiting" | "scanning" | "captured" | "processing" | "complete" | "error">("waiting")
   const [scanProgress, setScanProgress] = useState(0)
   const [showInstructions, setShowInstructions] = useState(true)
   const [recognizedName, setRecognizedName] = useState<string | null>(null)
@@ -125,13 +125,6 @@ export default function ScanPage() {
     setShowInstructions(false)
     setError(null)
 
-    // Progress update for UX
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += 5
-      setScanProgress(Math.min(progress, 95)) // Keep at 95% until API response
-    }, 100)
-
     try {
       // Capture the current frame
       const imageBlob = await captureFrame();
@@ -140,20 +133,34 @@ export default function ScanPage() {
         throw new Error("Failed to capture image. Please try again.");
       }
       
+      // Update status to show face captured
+      setScanningStatus("captured");
+      setScanProgress(30);
+      
+      // Short delay to show the face captured message
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Update to processing state
+      setScanningStatus("processing");
+      
+      // Progress update for UX during processing
+      let progress = 30;
+      const interval = setInterval(() => {
+        progress += 3;
+        setScanProgress(Math.min(progress, 95)); // Keep at 95% until API response
+      }, 100);
+      
       // Create a File object from the Blob
       const imageFile = new File([imageBlob], "face-scan.jpg", { type: "image/jpeg" });
-      
-      // Clear the scanning progress interval
-      clearInterval(interval);
-      
-      // Switch to processing state while waiting for server response
-      setScanningStatus("processing");
       
       // Send to backend for recognition
       const result = await recognizeFace(imageFile);
       
       // Debug log to see the exact structure of the result
       console.log("Recognition result:", result);
+      
+      clearInterval(interval);
+      setScanProgress(100);
       
       // Check if recognition was successful
       if (result.success === true) {
@@ -216,7 +223,6 @@ export default function ScanPage() {
         setScanningStatus("error");
       }
     } catch (err: any) {
-      clearInterval(interval);
       console.error("Scan error:", err);
       // If it's a network error or other unexpected error
       setError(err.message || "Face recognition failed. Please try again or use manual login.");
@@ -243,18 +249,6 @@ export default function ScanPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navigation />
-
-      {/* Custom animation style */}
-      <style jsx global>{`
-        @keyframes spin-slow {
-          to {
-            transform: rotate(-360deg);
-          }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
-        }
-      `}</style>
 
       <main className="flex-grow bg-light-bg py-4 md:py-8">
         <div className="container mx-auto px-4">
@@ -356,7 +350,7 @@ export default function ScanPage() {
                     {/* Scanning Overlay */}
                     {scanningStatus === "scanning" && (
                       <div className="absolute inset-0 bg-dark-neutral/50 flex flex-col items-center justify-center">
-                        <div className="w-48 h-48 border-4 border-primary/50 rounded-full animate-pulse mb-4" />
+                        <div className="w-48 h-48 border-4 border-primary rounded-full animate-pulse mb-4" />
                         <div className="text-white text-center">
                           <p className="text-lg mb-2">Scanning...</p>
                           <div className="w-64 h-2 bg-white/20 rounded-full overflow-hidden">
@@ -369,20 +363,44 @@ export default function ScanPage() {
                       </div>
                     )}
 
-                    {/* Processing Overlay - New component for server processing */}
-                    {scanningStatus === "processing" && (
-                      <div className="absolute inset-0 bg-dark-neutral/70 flex flex-col items-center justify-center">
-                        <div className="relative">
-                          {/* Outer spinning circle */}
-                          <div className="w-32 h-32 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-                          {/* Inner spinning circle (opposite direction) */}
-                          <div className="absolute top-4 left-4 w-24 h-24 border-4 border-white border-b-transparent rounded-full animate-spin-slow" />
-                          {/* Center dot */}
-                          <div className="absolute top-12 left-12 w-8 h-8 bg-primary rounded-full" />
+                    {/* Face Captured Overlay */}
+                    {scanningStatus === "captured" && (
+                      <div className="absolute inset-0 bg-dark-neutral/75 flex flex-col items-center justify-center">
+                        <div className="w-48 h-48 border-4 border-success rounded-full mb-4 flex items-center justify-center">
+                          <CheckCircle2 className="w-16 h-16 text-success" />
                         </div>
-                        <div className="text-white text-center mt-8">
-                          <p className="text-xl font-semibold mb-2">Verifying Identity</p>
-                          <p className="text-sm">Please wait while we process your request...</p>
+                        <div className="text-white text-center">
+                          <p className="text-xl font-bold mb-2">Face Captured!</p>
+                          <div className="w-64 h-2 bg-white/20 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-success transition-all duration-300 ease-in-out"
+                              style={{ width: `${scanProgress}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Processing Overlay */}
+                    {scanningStatus === "processing" && (
+                      <div className="absolute inset-0 bg-dark-neutral/75 flex flex-col items-center justify-center">
+                        <div className="relative w-48 h-48 mb-4">
+                          {/* Circular container */}
+                          <div className="absolute inset-0 border-4 border-primary/30 rounded-full"></div>
+                          
+                          {/* Rotating arc - rolling scanner effect */}
+                          <div className="absolute inset-0 rounded-full overflow-hidden">
+                            <div className="w-full h-full border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                          </div>
+                        </div>
+                        <div className="text-white text-center">
+                          <p className="text-xl font-bold mb-2">Processing...</p>
+                          <div className="w-64 h-2 bg-white/20 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-primary transition-all duration-300 ease-in-out"
+                              style={{ width: `${scanProgress}%` }}
+                            />
+                          </div>
                         </div>
                       </div>
                     )}
@@ -425,7 +443,7 @@ export default function ScanPage() {
 
                 {(scanningStatus === "scanning" || scanningStatus === "processing" || scanningStatus === "complete") && (
                   <div className="flex justify-between">
-                    <ButtonCustom variant="secondary" onClick={cancelScan} disabled={scanningStatus === "complete" || scanningStatus === "processing"}>
+                    <ButtonCustom variant="secondary" onClick={cancelScan} disabled={scanningStatus === "complete"}>
                       <X className="mr-2 h-4 w-4" />
                       Cancel
                     </ButtonCustom>
